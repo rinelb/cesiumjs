@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.72/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.72/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+<body>
+  <div id="cesiumContainer" style="width: 700px; height:400px"></div>
+  <script>
+var viewer = new Cesium.Viewer("cesiumContainer");
+var timeline = new Cesium.Timeline("cesiumContainer", clock)
+var x = 39.9208667;
+var pinBuilder = new Cesium.PinBuilder();
+
+var bluePin = viewer.entities.add({
+  name: "Blank blue pin",
+  position: Cesium.Cartesian3.fromDegrees(-75.170726, x),
+  billboard: {
+    image: pinBuilder.fromColor(Cesium.Color.ROYALBLUE, 48).toDataURL(),
+    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+  },
+});
+
+Cesium.when.all(
+  [bluePin],
+  function (pins) {
+    viewer.zoomTo(pins);
+  }
+);
+
+window.setInterval(changepin, 5000);
+function changepin() {
+	x = x +0.0001;
+	bluePin.position = Cesium.Cartesian3.fromDegrees(-75.170726, x);
+	console.log(x);
+	/*Cesium.when.all(
+  [bluePin],
+  function (pins) {
+    viewer.zoomTo(pins);
+  }
+);*/
+viewer.zoomTo(bluePin,300);
+
+}
+
+
+
+  </script>
+</body>
+</html>
